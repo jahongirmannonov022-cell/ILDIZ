@@ -136,4 +136,6 @@ export interface UserState {
   bookings: Booking[];
   /** badges whose plant has already been shown growing in the garden */
   gardenSeen: string[];
+  /** gardens of other students this user has watered (liked) */
+  watered: string[];
 }

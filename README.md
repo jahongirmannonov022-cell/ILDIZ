@@ -12,6 +12,10 @@ Natija ota-onaga o'zbekcha ovozli hisobot sifatida yuboriladi.
 
 | | Funksiya | Qayerda |
 |---|---|---|
+| 👨‍👩‍👦 | **Ikki platforma** — oʻquvchi (binafsha) va ota-ona (yashil-moviy) uchun alohida menyu, bosh sahifa va rang; yon menyuda almashtirish | `/app` |
+| 🧑‍🏫 | **Support ustozlar** — ildizga mos ustoz, vaqt band qilish, "2 daqiqada ulanish", onlayn dars xonasi (video, doska, chat, baholash) | `/app/tutors`, `/app/session/:id` |
+| 🏆 | **Bogʻlar reytingi** — boshqa oʻquvchilarning bogʻlarini koʻrish va suv quyish, oylik reyting (oy/shahar/sinf filtri), Top 5 ga har oy har xil sovgʻalar | `/app/achievements?tab=rating`, `/app/gardens/:id` |
+| 🌷 | **Yutuqlar bogʻi** — har bir yutuq gul yoki daraxt ekadi (animatsiya), markaziy daraxt darajaga qarab oʻsadi, ildizlari yopilgan boʻshliqlar | `/app/achievements` |
 | ⏪ | **Vaqt mashinasi (WOW)** — xato → skaner → sinflar bo'ylab orqaga → 3 savol → ildiz | `/app/scan` |
 | 📗 | 5 daqiqalik mikro-dars: g'oya, analogiya, misol, ishoralar zinapoyasi, tekshiruv | `/app/lesson/:id` |
 | 🗺️ | Bilim xaritasi: 5–9-sinf 30 mavzusi va bog'lanishlari | `/app/map` |
@@ -26,7 +30,7 @@ Natija ota-onaga o'zbekcha ovozli hisobot sifatida yuboriladi.
 | 🔔 | Bildirishnomalar va eslatmalar (vaqt bo'yicha ishga tushadi) | `/app/notifications` |
 | 🌐 | O'zbek / Rus / Ingliz tillari, yorug'/tungi rejim, yengil rejim | har sahifada |
 
-Demo hisob: login sahifasida **"Demo hisob bilan kirish (Jasur)"** tugmasi.
+Demo: login sahifasida **Oʻquvchi** (Jasur) yoki **Ota-ona** (Rustam aka) tugmasini bosing.
 
 ## Texnologiyalar
 

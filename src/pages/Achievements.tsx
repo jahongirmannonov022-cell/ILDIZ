@@ -1,18 +1,23 @@
 // Gamification hub: level tree, points, streak calendar, badges, daily goal, points log.
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle2, Circle, Flame, Flower2, Gift, Lock, Sparkles } from 'lucide-react';
 import { useT, useUser } from '../store/AppContext';
 import { BADGE, BADGES, DAILY_TASKS, LEVELS, PLANTS, dailyDone, levelOf, streakOf } from '../lib/game';
 import { Garden } from '../components/Garden';
-import { CountUp, PageHeader, Progress } from '../components/ui';
+import { CountUp, PageHeader, Progress, Tabs } from '../components/ui';
+import { GardenRanking } from '../components/GardenRanking';
+import { monthKey, prizesFor, ranking } from '../data/gardens';
 import { REASON } from '../lib/seed';
 import { celebrate } from '../lib/confetti';
 import { cn, dateKey, daysAgo, fmtDay } from '../lib/utils';
 
 export default function Achievements() {
   const { state, update, addPoints, settings } = useUser();
+  const [params, setParams] = useSearchParams();
+  const tab = params.get('tab') === 'rating' ? 'rating' : 'my';
+  const myRank = ranking(state, monthKey(0)).findIndex((r) => r.g.me) + 1;
   const { tx, L, lang } = useT();
   const lvl = levelOf(state.points);
   const streak = streakOf(state.activeDays);
@@ -41,6 +46,12 @@ export default function Achievements() {
     return () => window.clearTimeout(t);
   }, [newIds, update]);
   const sel = selected ? BADGE[selected] : null;
+  // On narrow screens start with the big root tree in the middle of the view
+  const gardenRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = gardenRef.current;
+    if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+  }, [tab]);
   const isParent = state.profile.role === 'parent';
   const child = state.profile.childName;
 
@@ -52,7 +63,32 @@ export default function Achievements() {
         subtitle={tx('Har bir yutuq — bitta gul yoki daraxt. Yopilgan har bir boʻshliq — markaziy daraxtga yangi ildiz 🌱', 'Каждое достижение — цветок или дерево. Каждый закрытый пробел — новый корень у главного дерева 🌱', 'Every achievement plants a flower or tree. Every closed gap adds a root to the big tree 🌱')}
       />
 
+      <div className="mb-6">
+        <Tabs<'my' | 'rating'>
+          value={tab}
+          onChange={(v) => setParams(v === 'my' ? {} : { tab: v })}
+          items={[
+            { id: 'my', label: isParent ? tx('Farzandim bogʻi', 'Сад ребёнка', "Child's garden") : tx('Mening bogʻim', 'Мой сад', 'My garden') },
+            { id: 'rating', label: tx('Bogʻlar reytingi 🏆', 'Рейтинг садов 🏆', 'Garden ranking 🏆') },
+          ]}
+        />
+      </div>
+
+      {tab === 'rating' ? (
+        <GardenRanking />
+      ) : (
+      <>
       {/* Garden */}
+      {/* Monthly rank teaser */}
+      <button onClick={() => setParams({ tab: 'rating' })} className="mb-4 flex w-full flex-wrap items-center gap-3 rounded-2xl border border-amber-400/40 bg-gradient-to-r from-amber-400/15 to-orange-500/10 p-4 text-left transition hover:-translate-y-0.5">
+        <span className="text-2xl">🏆</span>
+        <span className="flex-1 text-sm">
+          <b>{tx(`Bu oy bogʻlar reytingida #${myRank}`, `В рейтинге садов за месяц: #${myRank}`, `Garden ranking this month: #${myRank}`)}</b>
+          <span className="block text-muted">{tx(`Top 5 ga oylik sovgʻalar: ${prizesFor(monthKey(0)).map((p) => p.emoji).join(' ')}`, `Призы топ-5 месяца: ${prizesFor(monthKey(0)).map((p) => p.emoji).join(' ')}`, `Monthly Top-5 prizes: ${prizesFor(monthKey(0)).map((p) => p.emoji).join(' ')}`)}</span>
+        </span>
+        <span className="btn-secondary py-2 text-sm">{tx('Reyting va sovgʻalar', 'Рейтинг и призы', 'Ranking & prizes')} →</span>
+      </button>
+
       <div className="card mb-6 overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-5">
           <div className="flex items-center gap-2">
@@ -71,7 +107,8 @@ export default function Achievements() {
             )}
           </AnimatePresence>
         </div>
-        <div className="mt-3 overflow-x-auto">
+        <p className="mt-2 px-5 text-xs font-semibold text-muted sm:hidden">↔ {tx("Bogʻni yonga suring", "Листайте сад в сторону", "Swipe the garden sideways")}</p>
+        <div ref={gardenRef} className="mt-3 overflow-x-auto">
           <Garden badges={state.badges} newIds={newIds} level={lvl.index} roots={rootsClosed} dark={settings.theme === 'dark'} selected={selected} onSelect={setSelected} />
         </div>
         <AnimatePresence mode="wait">
@@ -203,6 +240,8 @@ export default function Achievements() {
           {!state.pointsLog.length && <p className="py-4 text-sm text-muted">{tx("Hali ball yoʻq", 'Очков пока нет', 'No points yet')}</p>}
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 }

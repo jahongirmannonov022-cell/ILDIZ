@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard';
 import ParentDashboard from './pages/ParentDashboard';
 import Tutors from './pages/Tutors';
 import Session from './pages/Session';
+import GardenVisit from './pages/GardenVisit';
 import Scan from './pages/Scan';
 import LessonPage from './pages/Lesson';
 import KnowledgeMap from './pages/KnowledgeMap';
@@ -74,6 +75,7 @@ export default function App() {
             <Route index element={<HomeByRole />} />
             <Route path="tutors" element={<Tutors />} />
             <Route path="session/:id" element={<Session />} />
+            <Route path="gardens/:id" element={<GardenVisit />} />
             <Route path="scan" element={<Scan />} />
             <Route path="lesson/:id" element={<LessonPage />} />
             <Route path="map" element={<KnowledgeMap />} />

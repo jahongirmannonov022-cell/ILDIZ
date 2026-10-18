@@ -53,7 +53,7 @@ const isDemo = (e: string) => e === DEMO_EMAIL || e === DEMO_PARENT;
 /** Fill fields added in newer versions so old saved progress keeps working */
 function migrate(s: UserState | null): UserState | null {
   if (!s) return s;
-  return { ...s, bookings: s.bookings ?? [], gardenSeen: s.gardenSeen ?? s.badges ?? [], stats: { ...s.stats, sessions: s.stats?.sessions ?? 0 } };
+  return { ...s, bookings: s.bookings ?? [], gardenSeen: s.gardenSeen ?? s.badges ?? [], watered: s.watered ?? [], stats: { ...s.stats, sessions: s.stats?.sessions ?? 0 } };
 }
 const K = {
   settings: 'nega.settings',

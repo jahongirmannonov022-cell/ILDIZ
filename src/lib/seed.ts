@@ -16,6 +16,7 @@ export const REASON = {
   teacher: tri("Sinfga mashq yuborildi", 'Упражнение отправлено классу', 'Class practice sent'),
   booking: tri('Dars band qilindi', 'Урок забронирован', 'Lesson booked'),
   session: tri('Ustoz bilan dars', 'Урок с учителем', 'Lesson with a tutor'),
+  water: tri('Doʻstning bogʻiga suv quyildi', 'Полит сад друга', "Watered a friend's garden"),
   welcome: tri('Xush kelibsiz bonusi', 'Приветственный бонус', 'Welcome bonus'),
 };
 
@@ -73,6 +74,7 @@ function baseState(profile: Profile): UserState {
     chat: [],
     bookings: [],
     gardenSeen: [],
+    watered: [],
   };
 }
 
