@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6C47FF" />
+    <meta name="description" content="IldizAI — bolaning xatosi ildizini oldingi sinflardan topadigan va 5 daqiqada yopadigan platforma." />
+    <title>IldizAI — Javobni emas, sababni topadi</title>
+    <script>
+      // Apply saved theme before paint to avoid a flash
+      try {
+        var s = JSON.parse(localStorage.getItem('nega.settings') || '{}');
+        var dark = s.theme ? s.theme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

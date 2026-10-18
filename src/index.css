@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens — one strong accent (violet), neutral surfaces */
+:root {
+  --bg: 247 246 252;
+  --fg: 22 19 41;
+  --card: 255 255 255;
+  --muted: 104 100 128;
+  --line: 226 223 240;
+  --brand: 108 71 255;
+  --brand2: 192 38 211;
+  color-scheme: light;
+}
+.dark {
+  --bg: 10 9 20;
+  --fg: 241 239 255;
+  --card: 22 20 39;
+  --muted: 156 151 184;
+  --line: 46 42 70;
+  --brand: 140 114 255;
+  color-scheme: dark;
+}
+
+/* Each platform has its own accent: student = violet (default), parent = teal, teacher = blue */
+:root[data-role='parent'] {
+  --brand: 13 148 136;
+  --brand2: 2 132 199;
+}
+:root[data-role='teacher'] {
+  --brand: 37 99 235;
+  --brand2: 124 58 237;
+}
+.dark[data-role='parent'] {
+  --brand: 20 160 145;
+}
+.dark[data-role='teacher'] {
+  --brand: 72 120 245;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4 {
+    @apply tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand/60 ring-offset-2 ring-offset-bg;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white shadow-glow hover:-translate-y-0.5 hover:brightness-110;
+  }
+  .btn-secondary {
+    @apply btn border border-line bg-card/70 text-fg backdrop-blur hover:-translate-y-0.5 hover:border-brand/50;
+  }
+  .btn-ghost {
+    @apply btn px-3 text-muted hover:bg-fg/5 hover:text-fg;
+  }
+  .btn-lg {
+    @apply px-6 py-3.5 text-base;
+  }
+  .card {
+    @apply rounded-2xl border border-line/70 bg-card/75 shadow-soft backdrop-blur-xl;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-glow;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-card/70 px-4 py-3 text-sm text-fg outline-none transition placeholder:text-muted/70 focus:border-brand focus:ring-4 focus:ring-brand/15;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-semibold text-fg;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand;
+  }
+  .section {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-brand;
+  }
+  .h-section {
+    @apply text-3xl font-extrabold sm:text-4xl;
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand via-brand2 to-brand bg-clip-text text-transparent;
+  }
+  .skeleton {
+    @apply animate-pulse rounded-xl bg-fg/10;
+  }
+  .notebook {
+    background-color: #fffdf6;
+    background-image: linear-gradient(90deg, transparent 46px, rgb(244 63 94 / 0.35) 46px, rgb(244 63 94 / 0.35) 48px, transparent 48px),
+      repeating-linear-gradient(transparent, transparent 35px, rgb(59 130 246 / 0.22) 35px, rgb(59 130 246 / 0.22) 36px);
+    color: #1e293b;
+  }
+}
+
+/* Leaflet popups follow the theme */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgb(var(--card));
+  color: rgb(var(--fg));
+}
+.leaflet-container {
+  font-family: inherit;
+  background: rgb(var(--bg));
+}
+
+@media print {
+  aside, header, nav, .no-print { display: none !important; }
+  body { background: #fff; }
+}
